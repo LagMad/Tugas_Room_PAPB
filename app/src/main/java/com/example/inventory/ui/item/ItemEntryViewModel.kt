@@ -44,12 +44,15 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
             ItemUiState(itemDetails = itemDetails, isEntryValid = validateInput(itemDetails))
     }
 
+//    Fungsi saveItem untuk memasukkan entitas ke dalam database
     suspend fun saveItem() {
         if (validateInput()) {
             itemsRepository.insertItem(itemUiState.itemDetails.toItem())
         }
     }
 
+//    Fungsi validateInput digunakan untuk mengecek apakah input field name, price, dan quantity
+//    kosong atau tidak. Fungsi ini untuk mengantisipasi error saat input database
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
@@ -65,6 +68,7 @@ data class ItemUiState(
     val isEntryValid: Boolean = false
 )
 
+// Constructor untuk ItemDetails
 data class ItemDetails(
     val id: Int = 0,
     val name: String = "",
